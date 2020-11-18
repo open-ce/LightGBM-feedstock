@@ -1,0 +1,9 @@
+recipes:
+  - name : lightgbm-select
+    path : select_recipe
+
+  - name : lightgbm-base
+    path : recipe
+
+  - name : lightgbm-meta
+    path : meta_recipe
