@@ -37,7 +37,7 @@ then
     
 fi
 
-if [[ $mpi_type == 'openmpi' ]]
+if [[ $mpi_type != None ]]
 then
     BUILD_OPTION+=" -DUSE_MPI=ON"
 fi
@@ -45,6 +45,6 @@ fi
 echo $BUILD_OPTION
 
 cmake .. $BUILD_OPTION -DCMAKE_INSTALL_PREFIX=$PREFIX 
-make
+make -j
 make install
 cd ..

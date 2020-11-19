@@ -28,7 +28,7 @@ then
     export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
 fi
 
-if [[ $mpi_type == 'openmpi' ]]
+if [[ $mpi_type != None ]]
 then
     INSTALL_OPTION+="--mpi"
 fi
