@@ -21,7 +21,7 @@ ARCH="$(arch)"
 
 if [[ $build_type == "cuda" ]]
 then
-    BUILD_OPTION="-DUSE_CUDA=ON -DCMAKE_CUDA_COMPILER=${CUDA_HOME}/bin/nvcc -DCMAKE_C_COMPILER=${GCC} -DCMAKE_CXX_COMPILER=${GXX} -DCMAKE_CUDA_HOST_COMPILER=${CXX}"
+    BUILD_OPTION="-DUSE_CUDA=ON -DCMAKE_CUDA_COMPILER=${CUDA_HOME}/bin/nvcc -DCMAKE_CUDA_HOST_COMPILER=${CXX}"
 
     # Create symlinks of cublas headers into CONDA_PREFIX
     mkdir -p $CONDA_PREFIX/include
