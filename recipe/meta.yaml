@@ -9,11 +9,11 @@ package:
 source:
   git_url: https://github.com/microsoft/LightGBM
   git_tag: v{{ version }}
+  patches:
+    - 0001-Build-fix-for-cuda.patch  #[build_type == 'cuda']
 
 build:
   number: 1
-  script_env:
-    - CUDA_HOME
 
 outputs:
   - name: liblightgbm-base

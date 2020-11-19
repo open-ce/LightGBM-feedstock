@@ -13,9 +13,6 @@
 pushd ${SRC_DIR}/python-package
 export CMAKE_PREFIX_PATH=$PREFIX
 export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PREFIX/lib:$BUILD_PREFIX/lib
-export CMAKE_CXX_COMPILER=${GXX}
-export CMAKE_C_COMPILER=${GCC}
 
 INSTALL_OPTION=""
 
@@ -23,6 +20,7 @@ if [[ $build_type == "cuda" ]]
 then
     INSTALL_OPTION="--cuda "
     export CUDACXX=$CUDA_HOME/bin/nvcc
+    export CMAKE_CUDA_HOST_COMPILER=${GXX}
 
     # Create symlinks of cublas headers into CONDA_PREFIX
     mkdir -p $CONDA_PREFIX/include
