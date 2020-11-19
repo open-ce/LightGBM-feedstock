@@ -1,33 +1,47 @@
+# *****************************************************************
+#
+# Licensed Materials - Property of IBM
+#
+# (C) Copyright IBM Corp. 2020. All Rights Reserved.
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# *****************************************************************
 #!/bin/bash
 
-LIBDIR=${PREFIX}/lib
-INCDIR=${PREFIX}/include
-BINDIR=${PREFIX}/bin
-SODIR=${LIBDIR}
+export CMAKE_PREFIX_PATH=$PREFIX
 
 mkdir -p ${SRC_DIR}/build
 cd ${SRC_DIR}/build
 
-#CMAKE_CUDA_FLAGS: -Xcompiler=-fopenmp -Xcompiler=-fPIC -Xcompiler=-Wall -gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_62,code=sm_62 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75 -gencode arch=compute_75,code=compute_75 -O3 -lineinfo
-
 BUILD_OPTION=""
 if [[ $build_type == "cuda" ]]
 then
-    BUILD_OPTION="-DUSE_CUDA=ON "
+    BUILD_OPTION="-DUSE_CUDA=ON -DCMAKE_CUDA_COMPILER=${CUDA_HOME}/bin/nvcc"
+
+    # Create symlinks of cublas headers into CONDA_PREFIX
+    mkdir -p $CONDA_PREFIX/include
+    find /usr/include -name cublas*.h -exec ln -s "{}" "$CONDA_PREFIX/include/" ';'
+    export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
+
     if [[ "${ARCH}" == 'ppc64le' ]]
     then 
         export CUDA_ARCH_FLAGS="3.7 6.0 7.0 7.5 8.0"
     else
         export CUDA_ARCH_FLAGS="3.7 5.2, 6.0 6.1 7.0 7.5 8.0"
     fi
+    
 fi
 
-#if [[ $mpi_type == 'openmpi' ]]
-#then
-#    BUILD_OPTION+="-DUSE_MPI=ON"
-#fi
+if [[ $mpi_type == 'openmpi' ]]
+then
+    BUILD_OPTION+=" -DUSE_MPI=ON"
+fi
 
-cmake .. $BUILD_OPTION
+echo $BUILD_OPTION
+
+cmake .. $BUILD_OPTION -DCMAKE_INSTALL_PREFIX=$PREFIX 
 make
 make install
 cd ..
