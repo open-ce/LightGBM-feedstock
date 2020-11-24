@@ -45,6 +45,6 @@ fi
 echo $BUILD_OPTION
 
 cmake .. $BUILD_OPTION -DCMAKE_INSTALL_PREFIX=$PREFIX 
-make -j
+make -j${CPU_COUNT}
 make install
 cd ..
