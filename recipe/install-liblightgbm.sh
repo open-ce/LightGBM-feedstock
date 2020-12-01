@@ -30,11 +30,16 @@ then
 
     if [[ "${ARCH}" == 'ppc64le' ]]
     then 
-        export CUDA_ARCH_FLAGS="3.7 6.0 7.0 7.5 8.0"
+        CUDA_COMPUTE_CABABILITY="6.0 7.0 7.5"
     else
-        export CUDA_ARCH_FLAGS="3.7 5.2, 6.0 6.1 7.0 7.5 8.0"
+        CUDA_COMPUTE_CABABILITY="3.7 5.2 6.0 6.1 7.0 7.5"
     fi
-    
+
+    CUDA_VERSION="${cudatoolkit%.*}"
+    if [[ $CUDA_VERSION == '11' ]]; then
+        CUDA_COMPUTE_CABABILITY+=' 8.0'
+    fi
+    export CUDA_COMPUTE_CABABILITY
 fi
 
 if [[ $mpi_type != None ]]
