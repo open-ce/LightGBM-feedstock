@@ -1,0 +1,29 @@
+From aafb807900f9549bf7cd51792f3e2de9003ea53d Mon Sep 17 00:00:00 2001
+From: Nishidha Panpaliya <npanpa23@in.ibm.com>
+Date: Tue, 1 Dec 2020 15:00:07 +0000
+Subject: [PATCH] Fix for cuda compute capabilities setting
+
+---
+ CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a4baa8c..6416ad2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -163,7 +163,11 @@ if(USE_CUDA)
+     find_package(CUDA REQUIRED)
+     include_directories(${CUDA_INCLUDE_DIRS})
+     LIST(APPEND CMAKE_CUDA_FLAGS -Xcompiler=${OpenMP_CXX_FLAGS} -Xcompiler=-fPIC -Xcompiler=-Wall)
+-    CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS 6.0 6.1 6.2 7.0 7.5+PTX)
++    if( DEFINED ENV{CUDA_COMPUTE_CABABILITY} )
++        CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS $ENV{CUDA_COMPUTE_CABABILITY})
++    else()
++        CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS 6.0 6.1 6.2 7.0 7.5+PTX)
++    endif()
+ 
+     LIST(APPEND CMAKE_CUDA_FLAGS ${CUDA_ARCH_FLAGS})
+     if(USE_DEBUG)
+-- 
+1.8.3.1
+

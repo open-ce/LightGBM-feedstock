@@ -1,0 +1,27 @@
+# Recipe for metapackages to install CPU and CUDA versions of LightGBM
+
+{% set version = "3.1.0" %}
+
+package:
+  name: py-lightgbm{{ '-cpu' if build_type == 'cpu' else '' }}
+  version: {{ version }}
+
+build:
+  number: 1
+
+requirements:
+  run:
+    - python {{ python }}
+    - liblightgbm-base {{ version }}*
+    - py-lightgbm-base {{ version }}*
+    - _lightgbm_select =={{ lightgbm_select_version }}*
+
+about:
+  license: Apache-2.0
+  license_file: ../LICENSE
+  summary: A metapackage for selecting a LightGBM variant.
+
+extra:
+  recipe-maintainers:
+    - open-ce/open-ce-dev-team
+

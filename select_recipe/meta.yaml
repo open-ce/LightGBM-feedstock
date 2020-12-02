@@ -1,0 +1,16 @@
+package:
+  name: _lightgbm_select
+  version: {{ lightgbm_select_version }}
+
+build:
+  number: 1
+  string: {{ build_type }}_{{ PKG_BUILDNUM }}        #[build_type == 'cpu']
+  string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ PKG_BUILDNUM }}    #[build_type == 'cuda']
+
+about:
+  summary : Package used to select the specific LightGBM build variant
+
+extra:
+  recipe-maintainers:
+    - open-ce/open-ce-dev-team
+

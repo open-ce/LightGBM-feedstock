@@ -1,0 +1,96 @@
+# Builds the CPU and CUDA variants of liblightgbm-base and py-lightgbm-base package
+{% set name = "lightgbm-base" %}
+{% set version = "3.1.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  git_url: https://github.com/microsoft/LightGBM
+  git_tag: v{{ version }}
+  patches:
+    # 02xx - GPU only patch specific to open-ce (maybe)
+    - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
+    - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
+
+build:
+  number: 1
+
+outputs:
+  - name: liblightgbm-base
+    script: install-liblightgbm.sh
+    build:
+      string: {{ build_type }}_{{ mpi_type }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
+      string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
+{% if build_type == 'cuda' %}
+      script_env:
+        - CUDA_HOME
+{% endif %}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake >=3.16 
+        - make
+        - libuv
+      host:
+        - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+      run:
+        - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
+        - _lightgbm_select {{ lightgbm_select_version }} 
+
+  - name: py-lightgbm-base
+    script: install-py-lightgbm.sh
+    build:
+      string: {{ build_type }}_{{ mpi_type }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
+      string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
+{% if build_type == 'cuda' %}
+      script_env:
+        - CUDA_HOME
+{% endif %}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake >=3.16
+        - make
+        - libuv
+      host:
+        - {{ pin_subpackage('liblightgbm-base', exact=True) }}
+        - python {{ python }}
+        - setuptools {{ setuptools }}
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+      run:
+        - {{ pin_subpackage('liblightgbm-base', exact=True) }}
+        - python {{ python }}
+        - numpy {{ numpy }}
+        - scipy {{ scipy }}
+        - scikit-learn
+        - joblib {{ joblib }}
+        - _lightgbm_select {{ lightgbm_select_version }}
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+      extra:
+        toolkitused: {{ cudatoolkit }}           #[build_type == 'cuda']
+      test:
+      imports:
+        - lightgbm
+
+about:
+  home: https://github.com/microsoft/LightGBM
+  license: MIT License
+  license_file: LICENSE
+  summary: Light Gradient Boosting Machine that uses tree based learning algorithms
+  description: |
+    A fast, distributed, high performance gradient boosting (GBT, GBDT, GBRT, GBM or MART)
+    framework based on decision tree algorithms, used for ranking, classification and
+    many other machine learning tasks.
+  doc_url: https://github.com/microsoft/LightGBM/tree/v{{ version }}/docs
+  dev_url: https://github.com/microsoft/LightGBM/tree/v{{ version }}
+
+extra:
+  recipe-maintainers:
+    - open-ce/open-ce-dev-team
