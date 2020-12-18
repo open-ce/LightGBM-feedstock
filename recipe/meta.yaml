@@ -1,6 +1,6 @@
 # Builds the CPU and CUDA variants of liblightgbm-base and py-lightgbm-base package
 {% set name = "lightgbm-base" %}
-{% set version = "3.1.0" %}
+{% set version = "3.1.1" %}
 
 package:
   name: {{ name|lower }}
