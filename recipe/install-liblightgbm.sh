@@ -32,7 +32,7 @@ then
     then 
         CUDA_COMPUTE_CABABILITY="6.0 7.0 7.5"
     else
-        CUDA_COMPUTE_CABABILITY="3.7 5.2 6.0 6.1 7.0 7.5"
+        CUDA_COMPUTE_CABABILITY="6.0 6.1 7.0 7.5"
     fi
 
     CUDA_VERSION="${cudatoolkit%.*}"
