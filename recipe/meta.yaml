@@ -15,7 +15,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: liblightgbm-base
@@ -32,9 +32,10 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cmake >=3.16 
+        - cmake >=3.16
         - make
         - libuv
+        - git >={{ git }}
       host:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
@@ -58,7 +59,6 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake >=3.16
         - make
-        - libuv
       host:
         - {{ pin_subpackage('liblightgbm-base', exact=True) }}
         - python {{ python }}
