@@ -42,7 +42,7 @@ then
     export CUDA_COMPUTE_CABABILITY
 fi
 
-if [[ $mpi_type != None ]]
+if [[ $mpi_type != None && $build_type == "cuda" ]]
 then
     BUILD_OPTION+=" -DUSE_MPI=ON"
 fi

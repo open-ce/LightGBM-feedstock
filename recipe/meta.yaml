@@ -15,7 +15,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - name: liblightgbm-base
@@ -38,7 +38,7 @@ outputs:
         - git >={{ git }}
       host:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
-        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi' and build_type == 'cuda']
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
         - _lightgbm_select {{ lightgbm_select_version }} 
@@ -63,7 +63,7 @@ outputs:
         - {{ pin_subpackage('liblightgbm-base', exact=True) }}
         - python {{ python }}
         - setuptools {{ setuptools }}
-        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi' and build_type == 'cuda']
       run:
         - {{ pin_subpackage('liblightgbm-base', exact=True) }}
         - python {{ python }}
@@ -72,7 +72,7 @@ outputs:
         - scikit-learn
         - joblib {{ joblib }}
         - _lightgbm_select {{ lightgbm_select_version }}
-        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }}                #[mpi_type == 'openmpi' and build_type == 'cuda']
       extra:
         toolkitused: {{ cudatoolkit }}           #[build_type == 'cuda']
       test:
