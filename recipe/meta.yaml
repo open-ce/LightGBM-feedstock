@@ -21,7 +21,7 @@ outputs:
   - name: liblightgbm-base
     script: install-liblightgbm.sh
     build:
-      string: {{ build_type }}_{{ mpi_type }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
+      string: {{ build_type }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
       string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
 {% if build_type == 'cuda' %}
       script_env:
@@ -46,7 +46,7 @@ outputs:
   - name: py-lightgbm-base
     script: install-py-lightgbm.sh
     build:
-      string: {{ build_type }}_{{ mpi_type }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
+      string: {{ build_type }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cpu']
       string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
 {% if build_type == 'cuda' %}
       script_env:
