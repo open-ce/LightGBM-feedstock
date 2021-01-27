@@ -7,13 +7,17 @@ package:
   version: {{ version }}
 
 build:
-  number: 2 
+  number: 3
+  string: py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }}   #[build_type == 'cpu']
+  string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
 
 requirements:
   run:
     - liblightgbm-base {{ version }}*
     - py-lightgbm-base {{ version }}*
     - _lightgbm_select =={{ lightgbm_select_version }}*
+    - python {{ python }}
+    - cudatoolkit {{ cudatoolkit }} #[build_type == 'cuda']
 
 about:
   license: Apache-2.0
