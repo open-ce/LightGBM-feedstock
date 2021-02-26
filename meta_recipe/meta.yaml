@@ -7,7 +7,7 @@ package:
   version: {{ version }}
 
 build:
-  number: 3
+  number: 4
   string: py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }}   #[build_type == 'cpu']
   string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_py{{ python | replace(".", "") }}_{{ PKG_BUILDNUM }} #[build_type == 'cuda']
 
@@ -20,9 +20,14 @@ requirements:
     - cudatoolkit {{ cudatoolkit }} #[build_type == 'cuda']
 
 about:
-  license: Apache-2.0
-  license_file: ../LICENSE
+  home: https://github.com/microsoft/LightGBM
+  license: MIT License
+  license_family: MIT
+  license_file: LICENSE
   summary: A metapackage for selecting a LightGBM variant.
+  description: A metapackage for selecting a LightGBM variant.
+  doc_url: https://github.com/microsoft/LightGBM/tree/v{{ version }}/docs
+  dev_url: https://github.com/microsoft/LightGBM/tree/v{{ version }}
 
 extra:
   recipe-maintainers:

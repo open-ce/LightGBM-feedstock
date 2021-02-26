@@ -15,7 +15,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - name: liblightgbm-base
@@ -82,6 +82,7 @@ outputs:
 about:
   home: https://github.com/microsoft/LightGBM
   license: MIT License
+  license_family: MIT
   license_file: LICENSE
   summary: Light Gradient Boosting Machine that uses tree based learning algorithms
   description: |
