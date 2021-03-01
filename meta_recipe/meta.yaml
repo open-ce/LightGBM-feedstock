@@ -23,7 +23,6 @@ about:
   home: https://github.com/microsoft/LightGBM
   license: MIT License
   license_family: MIT
-  license_file: LICENSE
   summary: A metapackage for selecting a LightGBM variant.
   description: A metapackage for selecting a LightGBM variant.
   doc_url: https://github.com/microsoft/LightGBM/tree/v{{ version }}/docs
