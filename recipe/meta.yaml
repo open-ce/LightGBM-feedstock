@@ -39,7 +39,7 @@ outputs:
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
-        - openmpi {{ openmpi }} cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }} *cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
 {% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
@@ -68,7 +68,7 @@ outputs:
         - python {{ python }}
         - setuptools {{ setuptools }}
 {% if build_type == 'cuda' %}
-        - openmpi {{ openmpi }} cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }} *cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
 {% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
@@ -81,7 +81,7 @@ outputs:
         - joblib {{ joblib }}
         - _lightgbm_select {{ lightgbm_select_version }}
 {% if build_type == 'cuda' %}
-        - openmpi {{ openmpi }} cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
+        - openmpi {{ openmpi }} *cuda{{ cudatoolkit }}*   #[mpi_type == 'openmpi']
 {% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
