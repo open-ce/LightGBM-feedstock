@@ -15,7 +15,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 3
+  number: 4
 
 outputs:
   - name: liblightgbm-base
@@ -37,8 +37,12 @@ outputs:
         - libuv
         - git >={{ git }}
       host:
-        - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
+{% if build_type == 'cuda' %}
+        - cudatoolkit {{ cudatoolkit }}
+        - openmpi {{ openmpi }} *cuda*   #[mpi_type == 'openmpi']
+{% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+{% endif %}
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
         - _lightgbm_select {{ lightgbm_select_version }} 
@@ -63,7 +67,12 @@ outputs:
         - {{ pin_subpackage('liblightgbm-base', exact=True) }}
         - python {{ python }}
         - setuptools {{ setuptools }}
+{% if build_type == 'cuda' %}
+        - openmpi {{ openmpi }} *cuda*   #[mpi_type == 'openmpi']
+        - cudatoolkit {{ cudatoolkit }}
+{% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
+{% endif %}
       run:
         - {{ pin_subpackage('liblightgbm-base', exact=True) }}
         - python {{ python }}
@@ -72,9 +81,12 @@ outputs:
         - scikit-learn
         - joblib {{ joblib }}
         - _lightgbm_select {{ lightgbm_select_version }}
+{% if build_type == 'cuda' %}
+        - openmpi {{ openmpi }} *cuda*   #[mpi_type == 'openmpi']
+        - cudatoolkit {{ cudatoolkit }}
+{% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
-      extra:
-        toolkitused: {{ cudatoolkit }}           #[build_type == 'cuda']
+{% endif %}
       test:
       imports:
         - lightgbm
