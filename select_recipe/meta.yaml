@@ -3,9 +3,8 @@ package:
   version: {{ lightgbm_select_version }}
 
 build:
-  number: 1
-  string: {{ build_type }}_{{ PKG_BUILDNUM }}        #[build_type == 'cpu']
-  string: {{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ PKG_BUILDNUM }}    #[build_type == 'cuda']
+  number: 2
+  string: {{ build_type }}_{{ PKG_BUILDNUM }}
 
 about:
   summary : Package used to select the specific LightGBM build variant
