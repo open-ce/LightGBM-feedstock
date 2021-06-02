@@ -46,8 +46,6 @@ outputs:
       script_env:
         - CUDA_HOME
 {% endif %}
-      run_exports:
-        - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
       track_features:
         {{ "- lightgbm-cuda" if build_type == 'cuda' else "" }} 
 
