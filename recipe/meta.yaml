@@ -100,6 +100,10 @@ outputs:
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
       test:
+        requires:
+          # Use pins to control cos6/cos7 match
+          - libgcc-ng  {{ libgcc }}
+          - libstdcxx-ng  {{ libstdcxx }}
       imports:
         - lightgbm
 
