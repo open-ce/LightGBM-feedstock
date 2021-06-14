@@ -108,9 +108,9 @@ outputs:
         # Use pins to control cos6/cos7 match
         - libgcc-ng  {{ libgcc }}
         - libstdcxx-ng  {{ libstdcxx }}
-      test:
-        imports:
-          - lightgbm
+    test:
+      imports:
+        - lightgbm
 
 about:
   home: https://github.com/microsoft/LightGBM
