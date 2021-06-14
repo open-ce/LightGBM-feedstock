@@ -16,6 +16,9 @@ source:
  
 build:
   number: 5
+  ignore_run_exports:
+    - libgcc-ng
+    - libstdcxx-ng
 
 outputs:
   - name: liblightgbm-base
@@ -51,7 +54,10 @@ outputs:
         - libstdcxx-ng  {{ libstdcxx }}
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
-        - _lightgbm_select {{ lightgbm_select_version }} 
+        - _lightgbm_select {{ lightgbm_select_version }}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
 
   - name: py-lightgbm-base
     script: install-py-lightgbm.sh
@@ -99,13 +105,12 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       test:
-        requires:
-          # Use pins to control cos6/cos7 match
-          - libgcc-ng  {{ libgcc }}
-          - libstdcxx-ng  {{ libstdcxx }}
-      imports:
-        - lightgbm
+        imports:
+          - lightgbm
 
 about:
   home: https://github.com/microsoft/LightGBM
