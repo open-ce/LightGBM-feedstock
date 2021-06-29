@@ -14,11 +14,14 @@ source:
     # 02xx - GPU only patch specific to open-ce (maybe)
     - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
-
+ 
 build:
   number: 1
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
+  ignore_run_exports:
+    - libgcc-ng
+    - libstdcxx-ng
 
 outputs:
   - name: lightgbm-proc
@@ -48,6 +51,9 @@ outputs:
 {% endif %}
       track_features:
         {{ "- lightgbm-cuda" if build_type == 'cuda' else "" }} 
+      ignore_run_exports:
+        - libgcc-ng
+        - libstdcxx-ng
 
     requirements:
       build:
@@ -57,6 +63,9 @@ outputs:
         - make
         - libuv
         - git >={{ git }}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
@@ -64,8 +73,14 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       run_constrained:
         - lightgbm-proc * {{ build_type }}
 
@@ -102,6 +117,9 @@ outputs:
 {% endif %}
       track_features:
         {{ "- lightgbm-cuda" if build_type == 'cuda' else "" }}
+      ignore_run_exports:
+        - libgcc-ng
+        - libstdcxx-ng
 
     requirements:
       build:
@@ -109,6 +127,9 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake >=3.16
         - make
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       host:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -119,6 +140,9 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       run:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -132,6 +156,9 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}
+        - libstdcxx-ng  {{ libstdcxx }}
       run_constrained:
         - lightgbm-proc * {{ build_type }}
 
