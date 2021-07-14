@@ -15,10 +15,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
  
 build:
-  number: 6
-  ignore_run_exports:
-    - libgcc-ng
-    - libstdcxx-ng
+  number: 7
 
 outputs:
   - name: liblightgbm-base
@@ -30,9 +27,6 @@ outputs:
       script_env:
         - CUDA_HOME
 {% endif %}
-      ignore_run_exports:
-        - libgcc-ng
-        - libstdcxx-ng
 
     requirements:
       build:
@@ -58,9 +52,6 @@ outputs:
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
         - _lightgbm_select {{ lightgbm_select_version }}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
 
   - name: py-lightgbm-base
     script: install-py-lightgbm.sh
@@ -71,9 +62,6 @@ outputs:
       script_env:
         - CUDA_HOME
 {% endif %}
-      ignore_run_exports:
-        - libgcc-ng
-        - libstdcxx-ng
 
     requirements:
       build:
@@ -111,9 +99,6 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}                #[mpi_type == 'openmpi']
 {% endif %}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
     test:
       imports:
         - lightgbm
