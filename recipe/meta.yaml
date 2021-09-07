@@ -16,7 +16,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
@@ -58,9 +58,6 @@ outputs:
         - make
         - libuv
         - git >={{ git }}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
@@ -68,9 +65,6 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
       run_constrained:
@@ -117,9 +111,6 @@ outputs:
         - {{ compiler('cxx') }}               #[mpi_type != 'system']
         - cmake >=3.16
         - make
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
       host:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -130,9 +121,6 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
       run:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
