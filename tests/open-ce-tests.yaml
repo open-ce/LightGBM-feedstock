@@ -8,7 +8,7 @@ tests:
         PYTHON_VER=$(python -c 'import platform; print(platform.python_version())')
         if [[ ! "$PYTHON_VER" =~ "3.9" ]]
         then
-            conda install -y graphviz # graphviz doesn't install with python3.9
+            conda install -y graphviz        # graphviz doesn't install with python3.9
         fi 
  
   - name: Run LightGBM tests
