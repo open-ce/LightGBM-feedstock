@@ -33,18 +33,11 @@ then
     find /usr/include -name cublas*.h -exec ln -s "{}" "$CONDA_PREFIX/include/" ';'
     export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
 
-    if [[ "${ARCH}" == 'ppc64le' ]]
-    then 
-        CUDA_COMPUTE_CABABILITY="6.0 7.0 7.5"
-    else
-        CUDA_COMPUTE_CABABILITY="6.0 6.1 7.0 7.5"
-    fi
-
-    CUDA_VERSION="${cudatoolkit%.*}"
-    if [[ $CUDA_VERSION == '11' ]]; then
-        CUDA_COMPUTE_CABABILITY+=' 8.0'
-    fi
-    export CUDA_COMPUTE_CABABILITY
+    CUDA_COMPUTE_CAPABILITY=${cuda_levels//,/ }
+    # LightGBM doesn't work with cuda capability 3.7. So, removing it.
+    export CUDA_COMPUTE_CAPABILITY=${CUDA_COMPUTE_CAPABILITY//3.7 /}
+    echo $CUDA_COMPUTE_CABABILITY
+   
 fi
 
 if [[ $mpi_type != None ]]
