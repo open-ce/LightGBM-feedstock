@@ -58,6 +58,9 @@ outputs:
         - make
         - libuv
         - git >={{ git }}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
@@ -65,6 +68,9 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
       run_constrained:
@@ -111,6 +117,9 @@ outputs:
         - {{ compiler('cxx') }}               #[mpi_type != 'system']
         - cmake >=3.16
         - make
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -121,6 +130,9 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
+        # Use pins to control cos6/cos7 match
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
