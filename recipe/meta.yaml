@@ -16,7 +16,7 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
@@ -59,8 +59,8 @@ outputs:
         - libuv
         - git >={{ git }}
         # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
@@ -69,8 +69,8 @@ outputs:
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
         # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
       run_constrained:
@@ -118,8 +118,8 @@ outputs:
         - cmake >=3.16
         - make
         # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -131,8 +131,8 @@ outputs:
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
         # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}
-        - libstdcxx-ng  {{ libstdcxx }}
+        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
+        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
