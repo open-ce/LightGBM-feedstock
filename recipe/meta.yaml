@@ -1,5 +1,5 @@
 # Builds the CPU and CUDA variants of liblightgbm and lightgbm package
-{% set version = "3.2.1" %}
+{% set version = "3.3.0" %}
 {% set build_ext_version = version %}
 {% set proc_build_number = "1" %}
 
@@ -14,15 +14,15 @@ source:
     # 02xx - GPU only patch specific to open-ce (maybe)
     - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
-
+    - 0203-Fix-os-import-in-setup.py.patch
+ 
 build:
-  number: 3
+  number: 1
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
 outputs:
   - name: lightgbm-proc
-    version: {{ build_ext_version }}
     build:
       number: {{ proc_build_number }}
       string: {{ build_type }}
@@ -38,7 +38,6 @@ outputs:
 
   - name: liblightgbm
     script: install-liblightgbm.sh
-    version: {{ version }}
     build:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}_{{ mpi_type }} #[build_type == 'cpu']
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }} #[build_type == 'cuda']
@@ -58,9 +57,6 @@ outputs:
         - make
         - libuv
         - git >={{ git }}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
-        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
 {% if build_type == 'cuda' %}
         - cudatoolkit {{ cudatoolkit }}
@@ -68,9 +64,6 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
-        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - cudatoolkit {{ cudatoolkit }}        #[build_type == 'cuda']
       run_constrained:
@@ -99,7 +92,6 @@ outputs:
 
   - name: lightgbm
     script: install-py-lightgbm.sh
-    version: {{ version }}
     build:
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}_{{ mpi_type }} #[build_type == 'cpu']
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }} #[build_type == 'cuda']
@@ -117,9 +109,6 @@ outputs:
         - {{ compiler('cxx') }}               #[mpi_type != 'system']
         - cmake >=3.16
         - make
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
-        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       host:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
@@ -130,9 +119,6 @@ outputs:
 {% else %}
         - openmpi {{ openmpi }}          #[mpi_type == 'openmpi']
 {% endif %}
-        # Use pins to control cos6/cos7 match
-        - libgcc-ng  {{ libgcc }}         # [x86_64 and c_compiler_version == "7.2.*"]
-        - libstdcxx-ng  {{ libstdcxx }}   # [x86_64 and c_compiler_version == "7.2.*"]
       run:
         - {{ pin_subpackage('liblightgbm', exact=True) }}
         - python {{ python }}
