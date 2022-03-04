@@ -1,5 +1,5 @@
 # Builds the CPU and CUDA variants of liblightgbm and lightgbm package
-{% set version = "3.3.0" %}
+{% set version = "3.3.2" %}
 {% set build_ext_version = version %}
 {% set proc_build_number = "1" %}
 
@@ -17,7 +17,7 @@ source:
     - 0203-Fix-os-import-in-setup.py.patch
  
 build:
-  number: 1
+  number: 2
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
@@ -51,8 +51,8 @@ outputs:
     requirements:
       build:
         # Use the system compilers when wanting to build with the system mpi.
-        - {{ compiler('c') }}                 #[mpi_type != 'system']
-        - {{ compiler('cxx') }}               #[mpi_type != 'system']
+        - {{ compiler('c') }}                 #[mpi_type != 'system' and ppc_arch != "p10"]
+        - {{ compiler('cxx') }}               #[mpi_type != 'system' and ppc_arch != "p10"]
         - cmake >=3.16
         - make
         - libuv
@@ -105,8 +105,8 @@ outputs:
     requirements:
       build:
         # Use the system compilers when wanting to build with the system mpi.
-        - {{ compiler('c') }}                 #[mpi_type != 'system']
-        - {{ compiler('cxx') }}               #[mpi_type != 'system']
+        - {{ compiler('c') }}                 #[mpi_type != 'system' and ppc_arch != "p10"]
+        - {{ compiler('cxx') }}               #[mpi_type != 'system' and ppc_arch != "p10"]
         - cmake >=3.16
         - make
       host:
