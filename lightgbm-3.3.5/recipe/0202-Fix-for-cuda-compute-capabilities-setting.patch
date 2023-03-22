@@ -1,0 +1,29 @@
+From f74153682f4499471fb5d5ffce2d598d5d714a57 Mon Sep 17 00:00:00 2001
+From: Jason Furmanek <furmanek@us.ibm.com>
+Date: Tue, 1 Jun 2021 17:43:08 -0500
+Subject: [PATCH] Fix for cuda compute capabilities setting
+
+---
+ CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b845f362..f768e685 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -174,7 +174,11 @@ if(USE_CUDA)
+     endif()
+     list(POP_BACK CUDA_ARCHS CUDA_LAST_SUPPORTED_ARCH)
+     list(APPEND CUDA_ARCHS "${CUDA_LAST_SUPPORTED_ARCH}+PTX")
+-    CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS ${CUDA_ARCHS})
++    if( DEFINED ENV{CUDA_COMPUTE_CABABILITY} )
++        CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS $ENV{CUDA_COMPUTE_CABABILITY})
++    else()
++        CUDA_SELECT_NVCC_ARCH_FLAGS(CUDA_ARCH_FLAGS 6.0 6.1 6.2 7.0 7.5+PTX)
++    endif()
+ 
+     LIST(APPEND CMAKE_CUDA_FLAGS ${CUDA_ARCH_FLAGS})
+     if(USE_DEBUG)
+-- 
+2.23.0
+

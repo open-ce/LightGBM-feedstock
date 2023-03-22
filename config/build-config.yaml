@@ -1,0 +1,7 @@
+recipes:
+  - name : lightgbm-3.3.5
+    path : lightgbm-3.3.5/recipe
+
+  - name : lightgbm-3.3.2
+    path : lightgbm-3.3.2/recipe
+
