@@ -126,7 +126,7 @@ outputs:
         - python {{ python }}
         - numpy {{ numpy }}
         - scipy {{ scipy }}
-        - scikit-learn
+        - scikit-learn {{ scikit_learn }}
         - joblib {{ joblib }}
 {% if build_type == 'cuda' %}
         - openmpi {{ openmpi }} *cuda*   #[mpi_type == 'openmpi']
