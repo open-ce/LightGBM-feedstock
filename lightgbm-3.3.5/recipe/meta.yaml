@@ -16,8 +16,6 @@ source:
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
     - 0203-Fix-os-import-in-setup.py.patch
 
-    - 0301-Fixed-tests.patch
- 
 build:
   number: 1
   run_exports:
