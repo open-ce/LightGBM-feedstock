@@ -1,5 +1,5 @@
 # Builds the CPU and CUDA variants of liblightgbm and lightgbm package
-{% set version = "3.3.4" %}
+{% set version = "3.3.5" %}
 {% set build_ext_version = version %}
 {% set proc_build_number = "1" %}
 
@@ -15,7 +15,7 @@ source:
     - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
     - 0203-Fix-os-import-in-setup.py.patch
- 
+
 build:
   number: 1
   run_exports:
@@ -124,7 +124,7 @@ outputs:
         - python {{ python }}
         - numpy {{ numpy }}
         - scipy {{ scipy }}
-        - scikit-learn
+        - scikit-learn {{ scikit_learn }}
         - joblib {{ joblib }}
 {% if build_type == 'cuda' %}
         - openmpi {{ openmpi }} *cuda*   #[mpi_type == 'openmpi']

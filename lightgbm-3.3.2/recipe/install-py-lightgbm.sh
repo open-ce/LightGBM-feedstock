@@ -1,6 +1,6 @@
 #!/bin/bash
 # *****************************************************************
-# (C) Copyright IBM Corp. 2020, 2022. All Rights Reserved.
+# (C) Copyright IBM Corp. 2020, 2023. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,39 +15,30 @@
 # limitations under the License.
 # *****************************************************************
 
+pushd ${SRC_DIR}/python-package
 export CMAKE_PREFIX_PATH=$PREFIX
+export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
 
-mkdir -p ${SRC_DIR}/build
-cd ${SRC_DIR}/build
-
-BUILD_OPTION=""
-# Determine Architecture
-ARCH="$(arch)"
+INSTALL_OPTION=""
 
 if [[ $build_type == "cuda" ]]
 then
-    BUILD_OPTION="-DUSE_CUDA=ON -DCMAKE_CUDA_COMPILER=${CUDA_HOME}/bin/nvcc -DCMAKE_CUDA_HOST_COMPILER=${CXX}"
+    INSTALL_OPTION="--cuda "
+    export CUDACXX=$CUDA_HOME/bin/nvcc
+    export CMAKE_CUDA_HOST_COMPILER=${GXX}
 
     # Create symlinks of cublas headers into CONDA_PREFIX
     mkdir -p $CONDA_PREFIX/include
     find /usr/include -name cublas*.h -exec ln -s "{}" "$CONDA_PREFIX/include/" ';'
     export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
-
-    CUDA_COMPUTE_CAPABILITY=${cuda_levels//,/ }
-    # LightGBM doesn't work with cuda capability 3.7. So, removing it.
-    export CUDA_COMPUTE_CAPABILITY=${CUDA_COMPUTE_CAPABILITY//3.7 /}
-    echo $CUDA_COMPUTE_CABABILITY
-   
 fi
 
 if [[ $mpi_type != None ]]
 then
-    BUILD_OPTION+=" -DUSE_MPI=ON"
+    INSTALL_OPTION+="--mpi"
 fi
 
-echo $BUILD_OPTION
+echo $INSTALL_OPTION
 
-cmake .. $BUILD_OPTION -DCMAKE_INSTALL_PREFIX=$PREFIX 
-make -j${CPU_COUNT}
-make install
-cd ..
+${PYTHON} setup.py install $INSTALL_OPTION
+popd
