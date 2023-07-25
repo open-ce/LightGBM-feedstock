@@ -1,0 +1,24 @@
+From 8d81f1f31beb0afac57deaa0c74f43ea4e9d08f8 Mon Sep 17 00:00:00 2001
+From: Jason Furmanek <furmanek@us.ibm.com>
+Date: Tue, 1 Jun 2021 17:41:34 -0500
+Subject: [PATCH] Build fix for cuda
+
+---
+ python-package/setup.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/python-package/setup.py b/python-package/setup.py
+index ee98b1a1..48d1cd67 100644
+--- a/python-package/setup.py
++++ b/python-package/setup.py
+@@ -145,6 +145,7 @@ def compile_cpp(use_mingw=False, use_gpu=False, use_cuda=False, use_mpi=False,
+             cmake_cmd.append(f"-DOpenCL_LIBRARY={opencl_library}")
+     elif use_cuda:
+         cmake_cmd.append("-DUSE_CUDA=ON")
++        cmake_cmd.append("-DCMAKE_CUDA_HOST_COMPILER={}".format(os.environ["CMAKE_CUDA_HOST_COMPILER"]))
+     if use_mpi:
+         cmake_cmd.append("-DUSE_MPI=ON")
+     if nomp:
+-- 
+2.23.0
+
