@@ -12,9 +12,8 @@ source:
   git_tag: v{{ version }}
   patches:
     # 02xx - GPU only patch specific to open-ce (maybe)
-    - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
-    - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
- #   - 0203-Fix-os-import-in-setup.py.patch
+ #   - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
+ #   - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
 
 build:
   number: 1

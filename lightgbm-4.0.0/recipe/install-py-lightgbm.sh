@@ -15,7 +15,6 @@
 # limitations under the License.
 # *****************************************************************
 
-#pushd ${SRC_DIR}/python-package
 pushd ${SRC_DIR}
 export CMAKE_PREFIX_PATH=$PREFIX
 export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
@@ -41,18 +40,6 @@ fi
 
 echo $INSTALL_OPTION
 
-echo "installing Lightgbm"
-echo "PWD"
-echo "$PWD"
-echo "findng file"
-#find ../ -name LICENSE 
-echo "Found at"
-#cp -a ../LICENSE ./
-#cp -a ../CMakeLists.txt ./
-#cp -a ../src ./
-pip install --no-binary lightgbm lightgbm
-#sh ./build-python.sh install
-#$PYTHON -m pip install --no-deps --ignore-installed . --verbose
-#${PYTHON} pip install --find-links=. lightgbm 
-#${PYTHON} setup.py install $INSTALL_OPTION
+pip install --no-binary lightgbm lightgbm --no-deps --ignore-installed
+
 popd
