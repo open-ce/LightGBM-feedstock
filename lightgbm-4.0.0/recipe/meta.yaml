@@ -14,7 +14,7 @@ source:
     # 02xx - GPU only patch specific to open-ce (maybe)
  #   - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
  #   - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
-    - 0201-Cuda-12.2-support.patch                           #[build_type == 'cuda']
+    - 0201-Cuda-12.2-support.patch                           # [cudatoolkit == "12.2"]
 
 build:
   number: 1
