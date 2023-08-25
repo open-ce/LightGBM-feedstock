@@ -15,7 +15,7 @@
 # limitations under the License.
 # *****************************************************************
 
-pushd ${SRC_DIR}/python-package
+pushd ${SRC_DIR}
 export CMAKE_PREFIX_PATH=$PREFIX
 export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
 
@@ -40,5 +40,6 @@ fi
 
 echo $INSTALL_OPTION
 
-${PYTHON} setup.py install $INSTALL_OPTION
+pip install --no-binary lightgbm lightgbm --no-deps --ignore-installed
+
 popd

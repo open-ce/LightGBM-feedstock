@@ -1,5 +1,5 @@
 # Builds the CPU and CUDA variants of liblightgbm and lightgbm package
-{% set version = "3.3.2" %}
+{% set version = "4.0.0" %}
 {% set build_ext_version = version %}
 {% set proc_build_number = "1" %}
 
@@ -12,12 +12,12 @@ source:
   git_tag: v{{ version }}
   patches:
     # 02xx - GPU only patch specific to open-ce (maybe)
-    - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
-    - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
-    - 0203-Fix-os-import-in-setup.py.patch
- 
+ #   - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
+ #   - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
+    - 0201-Cuda-12.2-support.patch                           # [cudatoolkit == "12.2"]
+
 build:
-  number: 2
+  number: 1
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
