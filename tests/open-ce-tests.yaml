@@ -4,7 +4,7 @@ tests:
         # Get the LightGBM repo, which contains the tests
         conda install -y git
         git clone -b v$(python -c "import lightgbm as lgbm; print(lgbm.__version__)") https://github.com/microsoft/LightGBM
-        conda install -y pytest psutil scikit-learn pandas matplotlib scipy
+        conda install -y pytest psutil scikit-learn=1.1 pandas matplotlib scipy
         PYTHON_VER=$(python -c 'import platform; print(platform.python_version())')
         if [[ ! "$PYTHON_VER" =~ "3.9" ]]
         then
