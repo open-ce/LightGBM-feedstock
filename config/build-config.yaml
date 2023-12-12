@@ -2,5 +2,5 @@ recipes:
   - name : lightgbm-3.3.5
     path : lightgbm-3.3.5/recipe
   
-  - name : lightgbm-4.0.0
-    path : lightgbm-4.0.0/recipe 
+  - name : lightgbm-4.1.0
+    path : lightgbm-4.1.0/recipe 
