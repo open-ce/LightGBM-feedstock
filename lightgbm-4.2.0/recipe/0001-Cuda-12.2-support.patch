@@ -1,0 +1,26 @@
+From ccbe2948827d4bc338a76b9e07281d1acb227aa3 Mon Sep 17 00:00:00 2001
+From: Aman-Surkar <aman_surkar@persistent.com>
+Date: Mon, 8 Jan 2024 06:05:33 +0000
+Subject: [PATCH] Cuda-12.2-support
+
+---
+ CMakeLists.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4494ce89..4cdd71a0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -222,6 +222,9 @@ if(USE_CUDA)
+     if(CUDA_VERSION VERSION_GREATER_EQUAL "11.8")
+         list(APPEND CUDA_ARCHS "9.0")
+     endif()
++    if(CUDA_VERSION VERSION_GREATER_EQUAL "12.2")
++        list(APPEND CUDA_ARCHS "9.0")
++    endif()
+     list(POP_BACK CUDA_ARCHS CUDA_LAST_SUPPORTED_ARCH)
+     list(APPEND CUDA_ARCHS "${CUDA_LAST_SUPPORTED_ARCH}+PTX")
+     cuda_select_nvcc_arch_flags(CUDA_ARCH_FLAGS ${CUDA_ARCHS})
+-- 
+2.40.1
+
