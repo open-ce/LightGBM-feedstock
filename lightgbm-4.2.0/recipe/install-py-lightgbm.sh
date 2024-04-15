@@ -23,7 +23,7 @@ INSTALL_OPTION=""
 
 if [[ $build_type == "cuda" ]]
 then
-    INSTALL_OPTION="--cuda "
+    INSTALL_OPTION="--config-settings=cmake.define.USE_CUDA=ON "
     export CUDACXX=$CUDA_HOME/bin/nvcc
     export CMAKE_CUDA_HOST_COMPILER=${GXX}
 
@@ -35,11 +35,11 @@ fi
 
 if [[ $mpi_type != None ]]
 then
-    INSTALL_OPTION+="--mpi"
+    INSTALL_OPTION+="--config-settings=cmake.define.USE_MPI=ON"
 fi
 
 echo $INSTALL_OPTION
 
-pip install --no-binary lightgbm lightgbm --no-deps --ignore-installed
+pip install lightgbm==${PKG_VERSION} $INSTALL_OPTION --no-deps
 
 popd
