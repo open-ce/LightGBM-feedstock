@@ -1,6 +1,6 @@
 #!/bin/bash
 # *****************************************************************
-# (C) Copyright IBM Corp. 2020, 2023. All Rights Reserved.
+# (C) Copyright IBM Corp. 2020, 2024. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,22 +15,11 @@
 # limitations under the License.
 # *****************************************************************
 
-pushd ${SRC_DIR}
-export CMAKE_PREFIX_PATH=$PREFIX
-export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
-
 INSTALL_OPTION=""
 
 if [[ $build_type == "cuda" ]]
 then
     INSTALL_OPTION="--config-settings=cmake.define.USE_CUDA=ON "
-    export CUDACXX=$CUDA_HOME/bin/nvcc
-    export CMAKE_CUDA_HOST_COMPILER=${GXX}
-
-    # Create symlinks of cublas headers into CONDA_PREFIX
-    mkdir -p $CONDA_PREFIX/include
-    find /usr/include -name cublas*.h -exec ln -s "{}" "$CONDA_PREFIX/include/" ';'
-    export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
 fi
 
 if [[ $mpi_type != None ]]
@@ -40,6 +29,4 @@ fi
 
 echo $INSTALL_OPTION
 
-pip install lightgbm==${PKG_VERSION} $INSTALL_OPTION --no-deps
-
-popd
+pip install --no-binary  lightgbm $INSTALL_OPTION lightgbm==${PKG_VERSION} --no-deps
