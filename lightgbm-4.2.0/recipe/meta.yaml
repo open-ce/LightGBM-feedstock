@@ -17,7 +17,7 @@ source:
     - 0001-Cuda-12.2-support.patch                           # [cudatoolkit == "12.2"]
 
 build:
-  number: 3
+  number: 4
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
@@ -91,7 +91,8 @@ outputs:
 
 
   - name: lightgbm
-    script: install-py-lightgbm.sh
+    script: install-py-lightgbm.sh        #[not x86_64]
+    script: install-py-lightgbm-x86.sh    #[x86_64]
     build:
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}_{{ mpi_type }} #[build_type == 'cpu']
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }} #[build_type == 'cuda']
