@@ -11,13 +11,10 @@ source:
   git_url: https://github.com/microsoft/LightGBM
   git_tag: v{{ version }}
   patches:
-    # 02xx - GPU only patch specific to open-ce (maybe)
- #   - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
- #   - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
-    - 0001-Cuda-12.2-support.patch                           # [cudatoolkit == "12.2"]
+    - 0001-Fix-failure-with-FindCUDA.patch     #[ppc64le and build_type == 'cuda'] 
 
 build:
-  number: 4
+  number: 5
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 

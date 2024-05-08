@@ -19,14 +19,15 @@ INSTALL_OPTION=""
 
 if [[ $build_type == "cuda" ]]
 then
-    INSTALL_OPTION="--config-settings=cmake.define.USE_CUDA=ON "
+    INSTALL_OPTION="--cuda "
 fi
 
 if [[ $mpi_type != None ]]
 then
-    INSTALL_OPTION+="--config-settings=cmake.define.USE_MPI=ON"
+    INSTALL_OPTION+="--mpi"
 fi
 
 echo $INSTALL_OPTION
 
-pip install --no-binary  lightgbm $INSTALL_OPTION lightgbm==${PKG_VERSION} --no-deps
+${SRC_DIR}/build-python.sh bdist_wheel $INSTALL_OPTION
+pip install ${SRC_DIR}/dist/lightgbm-${PKG_VER}*.whl --no-deps
