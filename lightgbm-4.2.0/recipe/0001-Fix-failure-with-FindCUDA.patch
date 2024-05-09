@@ -1,0 +1,27 @@
+From 97b3726f28365eb8cd07bba92ec6441d413df6fc Mon Sep 17 00:00:00 2001
+From: Deepali Chourasia <deepch23@in.ibm.com>
+Date: Wed, 8 May 2024 06:18:12 +0000
+Subject: [PATCH] Fix failure with FindCUDA
+
+---
+ CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4494ce89..2457d114 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -147,6 +147,10 @@ else()
+     add_definitions(-DUSE_SOCKET)
+ endif()
+ 
++#unset CMAKE_FIND_ROOT_PATH as it is causing failure in FindCUDA
++set(CMAKE_FIND_ROOT_PATH "")
++message(STATUS "CMAKE_FIND_ROOT_PATH: ${CMAKE_FIND_ROOT_PATH}")
++
+ if(USE_CUDA)
+     set(CMAKE_CUDA_HOST_COMPILER "${CMAKE_CXX_COMPILER}")
+     enable_language(CUDA)
+-- 
+2.40.1
+
