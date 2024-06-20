@@ -33,6 +33,8 @@ ${SRC_DIR}/build-python.sh bdist_wheel $INSTALL_OPTION
 pip install ${SRC_DIR}/dist/lightgbm-${PKG_VER}*.whl --no-deps
 
 #remove the extra dependencies getting installed by the line - https://github.com/microsoft/LightGBM/blob/v4.2.0/build-python.sh#L189
+SYS_PYTHON_MAJOR=$(python -c "import sys;print(sys.version_info.major)")
+SYS_PYTHON_MINOR=$(python -c "import sys;print(sys.version_info.minor)")
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/pyproject_hooks*
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/build*
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/packaging*
