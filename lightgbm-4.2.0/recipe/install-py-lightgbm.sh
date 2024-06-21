@@ -38,3 +38,6 @@ SYS_PYTHON_MINOR=$(python -c "import sys;print(sys.version_info.minor)")
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/pyproject_hooks*
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/build*
 rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/packaging*
+if [[ "${SYS_PYTHON_MINOR}" -eq '10' ]]; then
+  rm -rf $PREFIX/lib/python${SYS_PYTHON_MAJOR}.${SYS_PYTHON_MINOR}/site-packages/tomli*
+fi
