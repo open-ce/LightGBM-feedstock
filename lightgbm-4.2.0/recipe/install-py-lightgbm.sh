@@ -17,6 +17,19 @@
 
 INSTALL_OPTION=""
 
+if [[ $ppc_arch == "p10" ]]
+then
+    if [[ -z "${GCC_HOME}" ]];
+    then
+	echo "Please set GCC_HOME to the install path of gcc-toolset-12"
+        exit 1
+    else
+        export PATH=$GCC_HOME/bin:$PATH
+        export CC=$GCC_HOME/bin/gcc
+        export CXX=$GCC_HOME/bin/g++
+    fi
+fi
+
 if [[ $build_type == "cuda" ]]
 then
     INSTALL_OPTION="--cuda "

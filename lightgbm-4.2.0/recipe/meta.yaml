@@ -14,7 +14,7 @@ source:
     - 0001-Fix-failure-with-FindCUDA.patch     #[ppc64le and build_type == 'cuda'] 
 
 build:
-  number: 5
+  number: 6
   run_exports:
     - {{ pin_subpackage("liblightgbm", max_pin="x.x.x") }}
 
@@ -93,10 +93,10 @@ outputs:
     build:
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}_{{ mpi_type }} #[build_type == 'cpu']
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_type }}{{ cudatoolkit | replace(".*", "") }}_{{ mpi_type }} #[build_type == 'cuda']
-{% if build_type == 'cuda' %}
       script_env:
-        - CUDA_HOME
-{% endif %}
+        - CUDA_HOME               #[build_type == 'cuda']
+        - GCC_HOME             #[ppc_arch == 'p10']
+
       track_features:
         {{ "- lightgbm-cuda" if build_type == 'cuda' else "" }}
 
