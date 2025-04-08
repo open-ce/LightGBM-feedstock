@@ -15,6 +15,7 @@ source:
     - 0201-Build-fix-for-cuda.patch                         #[build_type == 'cuda']
     - 0202-Fix-for-cuda-compute-capabilities-setting.patch  #[build_type == 'cuda']
     - 0203-Fix-os-import-in-setup.py.patch
+    - 0001-Fixed-CVE-2024-43598.patch
 
 build:
   number: 1
