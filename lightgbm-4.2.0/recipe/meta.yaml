@@ -12,6 +12,7 @@ source:
   git_tag: v{{ version }}
   patches:
     - 0001-Fix-failure-with-FindCUDA.patch     #[ppc64le and build_type == 'cuda'] 
+    - 0001-Fixed-CVE-2024-43598.patch
 
 build:
   number: 6
