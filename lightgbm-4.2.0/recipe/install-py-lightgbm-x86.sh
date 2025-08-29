@@ -102,7 +102,7 @@ requires-python = ">=3.7"
 include-package-data = true
 
 [tool.setuptools.package-data]
-lightgbm = ["lib_lightgbm.so", "bin/*", "lib/*"]
+lightgbm = ["lib_lightgbm.so","lib/*"]
 EOF
 
 # Install with setuptools
