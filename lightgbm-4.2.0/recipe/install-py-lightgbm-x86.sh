@@ -21,12 +21,10 @@ pushd ${SRC_DIR}
 export CMAKE_PREFIX_PATH=$PREFIX
 export CMAKE_LIBRARY_PATH=$PREFIX/lib:$BUILD_PREFIX/lib:$CMAKE_LIBRARY_PATH
 
-# Default CMake options
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=$PREFIX \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_PREFIX_PATH=$PREFIX"
 
-# CUDA build
 if [[ $build_type == "cuda" ]]; then
     CMAKE_ARGS="$CMAKE_ARGS -DUSE_CUDA=ON"
 
@@ -40,15 +38,11 @@ if [[ $build_type == "cuda" ]]; then
     fi
 
     export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${CUDA_HOME}/include -I${CONDA_PREFIX}/include"
-else
-    CMAKE_ARGS="$CMAKE_ARGS -DUSE_CUDA=OFF"
 fi
 
 # MPI build
 if [[ $mpi_type != None ]]; then
     CMAKE_ARGS="$CMAKE_ARGS -DUSE_MPI=ON"
-else
-    CMAKE_ARGS="$CMAKE_ARGS -DUSE_MPI=OFF"
 fi
 
 echo "CMake configuration: $CMAKE_ARGS"
@@ -73,13 +67,8 @@ fi
 # Copy into python package so wheel contains it
 mkdir -p ${SRC_DIR}/python-package/lightgbm
 cp "$LIB_PATH" ${SRC_DIR}/python-package/lightgbm/
-
-# Also copy to bin/ and lib/ for safety (matches LightGBM's search paths)
-mkdir -p ${SRC_DIR}/python-package/lightgbm/bin
 mkdir -p ${SRC_DIR}/python-package/lightgbm/lib
-cp "$LIB_PATH" ${SRC_DIR}/python-package/lightgbm/bin/
 cp "$LIB_PATH" ${SRC_DIR}/python-package/lightgbm/lib/
-
 cp "$LIB_PATH" ${SRC_DIR}/python-package/
 
 echo "Installing Python package with setuptools..."
